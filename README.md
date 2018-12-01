@@ -30,3 +30,10 @@ Typescript
 
 Strong type language can be more reliable, and stable when we build large framework or library. Thanks to well developed IDE and editors, It is no more tedious job for declare type of values. Pythons first target have been productivity 
 
+### How to make langauge prototype
+
+using langauge specificaion of ANSI c Yacc Grammar
+and we used https://devguide.python.org/grammar/
+
+We have converged two grammar specification for typeSun
+
