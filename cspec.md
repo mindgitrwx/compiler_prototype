@@ -11,20 +11,13 @@
 %token TYPEDEF EXTERN STATIC AUTO REGISTER
 %token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
 %token STRUCT UNION ENUM ELLIPSIS
-
-
 %token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
-
 %start translation_unit
 %%
 
-# 
+#  Identifier, constant, String_LITERAL
 primary_expression
-	: IDENTIFIER
-	| CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
-	;
+	: IDENTIFIER | CONSTANT | STRING_LITERAL | '(' expression ')' ;
 
 # A B + C * (this is the meaning of the postfix)
 postfix_expression
@@ -55,13 +48,12 @@ unary_expression
 	;
 
 # unary operator란 operand를 하나만 갖는 연산자
-unary_operator
-	: '&' | '*' | '+' | '-' | '~' | '!' ;
+unary_operator : '&' | '*' | '+' | '-' | '~' | '!' ;
 
 # type casting
-cast_expression
-	: unary_expression | '(' type_name ')' cast_expression ;
+cast_expression : unary_expression | '(' type_name ')' cast_expression ;
 
+# An expression of multiplication or division
 multiplicative_expression
 	: cast_expression
 	| multiplicative_expression '*' cast_expression
@@ -69,18 +61,22 @@ multiplicative_expression
 	| multiplicative_expression '%' cast_expression
 	;
 
+# An expression of addition or minus
 additive_expression
 	: multiplicative_expression
 	| additive_expression '+' multiplicative_expression
 	| additive_expression '-' multiplicative_expression
 	;
 
+# Left_op, Right_op -> what does it mean??
 shift_expression
 	: additive_expression
 	| shift_expression LEFT_OP additive_expression
 	| shift_expression RIGHT_OP additive_expression
 	;
 
+
+# LE_OP, GE_OP -> what does it mean??
 relational_expression
 	: shift_expression
 	| relational_expression '<' shift_expression
@@ -89,6 +85,7 @@ relational_expression
 	| relational_expression GE_OP shift_expression
 	;
 
+# Left_op, Right_op -> what does it mean??
 equality_expression
 	: relational_expression
 	| equality_expression EQ_OP relational_expression

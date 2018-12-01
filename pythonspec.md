@@ -9,10 +9,18 @@
 #       eval_input is the input for the eval() functions.
 # NB: compound_stmt in single_input is followed by extra NEWLINE!
 
+
+# Run python interactively : line by line
 single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
+
+
+# example python xxxx.py 
+# And what is the eval input?
 file_input: (NEWLINE | stmt)* ENDMARKER
 eval_input: testlist NEWLINE* ENDMARKER
 
+
+# Decorator
 decorator: '@' dotted_name [ '(' [arglist] ')' ] NEWLINE
 decorators: decorator+
 decorated: decorators (classdef | funcdef | async_funcdef)
@@ -49,8 +57,15 @@ augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
 
 # For normal and annotated assignments, additional restrictions enforced by the interpreter
 del_stmt: 'del' exprlist
+
 pass_stmt: 'pass'
-flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
+
+flow_stmt: break_stmt |
+           continue_stmt |
+           return_stmt |
+           raise_stmt |
+           yield_stmt
+
 break_stmt: 'break'
 continue_stmt: 'continue'
 return_stmt: 'return' [testlist]
