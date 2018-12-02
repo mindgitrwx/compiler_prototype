@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1 id="prototype-of-compiler-project">prototype of compiler project</h1>
+<h2 id="compiler-name-not-fixed">compiler name: (not fixed)</h2>
+<h2 id="used-language-c-language">used language : C language</h2>
+<h2 id="target-langauge-python-3.7.1">target langauge : python 3.7.1</h2>
+<h3 id="full-grammar-specification-of-python">Full grammar specification of python</h3>
+<p><a href="https://docs.python.org/3/reference/grammar.html" class="uri" title="python spec">https://docs.python.org/3/reference/grammar.html</a></p>
+<p><a href="https://devguide.python.org/grammar/" class="uri">https://devguide.python.org/grammar/</a></p>
+<h3 id="reference-site">Reference site</h3>
+<h3 id="python-ebnf-diagram">python EBNF diagram</h3>
+<p>http://www.wdz.eng.br/Python3DsBnf.htm http://dotnet.jku.at/applications/Visualizer/ ## used language : C language</p>
+<h2 id="the-feature-of-common-python-language">The feature of common python language</h2>
+<p>Interactive, Interpreted, Modular, Dynamic, Object-oriented, Portable, High level, Extensible in C++ &amp; C</p>
+<h2 id="problems-of-python-language">Problems of Python language</h2>
+<p>Slow, Weak in mobile Computing, Run-time Errors. It comes from inherent nature of the Python.</p>
+<h3 id="an-example-of-strong-type-language-that-previously-considered-an-interpreter-language">An example of Strong type language that previously considered an interpreter language</h3>
+<p>Typescript</p>
+<h3 id="why-strong-type-language-is-more-useful-than-weak-type-langauge">Why Strong type language is more useful than weak type langauge?</h3>
+<h3 id="정확한-설명은-여기에">정확한 설명은 여기에</h3>
+<p>Strong type language can be more reliable, and stable when we build large framework or library. Thanks to well developed IDE and editors, It is no more tedious job for declare type of values. Pythons first target have been productivity</p>
+<h3 id="a-weakly-typed-language-does-not-catch-errors-at-compile-time-so-there-is-a-risk-of-making-errors-during-program-execution">A weakly typed language does not catch errors at compile time, so there is a risk of making errors during program execution</h3>
+<h3 id="how-to-make-langauge-prototype">How to make langauge prototype</h3>
+<p>using langauge specificaion of ANSI c Yacc Grammar and we used https://devguide.python.org/grammar/</p>
+<p>We have converged two grammar specification for typeSun</p>
+<h1 id="markdown-code-insert-이게-맞았나..">markdown code insert 이게 맞았나..</h1>
+<pre class="md```"><code>
+decorator: &#39;@&#39; dotted_name [ &#39;(&#39; [arglist] &#39;)&#39; ] NEWLINE
+
+TODO: how can we handle single interactive statement of python?
+single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
+
+TODO: check file_input module. It is implemented on python spec
+#       file_input is a module or sequence of commands read from an input file;</code></pre>
+<h1 id="other-considerations">Other Considerations</h1>
+<ol style="list-style-type: decimal">
+<li><p>The inherent nature of Python - run line by line or directly run file TODO: English grammar</p></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<h1 id="pre---alpha-considerations">Pre - Alpha Considerations</h1>
+<p>&lt;<project guid line>&gt;</p>
+<p>Type (필수 / 선택) int, array(or list), casting(array&lt;-&gt;list) string Control if, while - and, or =&gt; and, or, &amp;, | 확장 subprograms function, procedure =&gt; 리턴 타입 추가 recursion</p>
+<p>Expresion -, +, *, / =&gt; pr, po 추가</p>
+<p>I/O read &amp; write primitive values</p>
+<h1 id="it-is-hard-to-use-operator-..---등등이-단순히string이-아니라-산술연산자라는-것을-알-수-있도록-등의-기호를-붙여야할지도">it is hard to use (operator)? .. ​+, -, /, * 등등이 단순히string이 아니라 산술연산자라는 것을 알 수 있도록 % 등의 기호를 붙여야할지도</h1>
+<h1 id="단순히-연산자라고-표현">단순히 연산자라고 표현</h1>
+<p>out: <em>--------------------| %a </em>------------------------* 가나라마 바사아자차카 타 파하</p>
+<p>in: %a %b %c</p>
+<p>1 2 3 4 5 6</p>
+<h1 id="define-own-langauge">Define own langauge</h1>
+<h1 id="code-example">code example</h1>
+<!-- 새로운 랭기지라 마크다운에 표현하기 애매하다  -->
+<pre class="python```"><code>def int mul(int a, int b)
+    return a*b;
+
+def main()
+    int a=0, b = 20, sum = 0, mul = 0;
+    int 
+        a = %a
+        b = %b
+
+    post: sum = a b +
+    mul = mul(a,b) # default behavior 
+
+    if(sum&gt;=0&amp;&amp; a&gt;=0 &amp;&amp; b&gt;=0):
+        out:
+            a와 b 모두 양수이다.
+            a=%a, b=%d이고
+            a + b = %c, a * b = %mul 이다.
+    else:
+        out:
+            a와 b 모두 양수가 아닐수도 있다.</code></pre>
+<h1 id="ebnf-grammar">EBNF grammar</h1>
+<!-- TODO: I don't know comment of the ebnf grammar  It seems to be removed # ~~ -->
+<p>type_specifier : VOID</p>
+<pre><code># Numeric Types
+| Int
+| float
+| long
+| complex
+
+# Iterator Types
+| _iter_
+| next()
+
+# Sequence Types
+| str
+| unicode
+| list
+| tuple
+| bytearray
+| buffer
+| xrange
+;</code></pre>
+<p>flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt</p>
+
+</body>
+</html>

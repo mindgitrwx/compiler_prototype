@@ -12,23 +12,10 @@
 
 <https://devguide.python.org/grammar/>
 
-## Reference sites
-
-### What is the Syntax diagram?
-https://www.wikiwand.com/en/Syntax_diagram 
-
+### Reference site
 ### python EBNF diagram
 http://www.wdz.eng.br/Python3DsBnf.htm
-
-### EBNF visualizer
 http://dotnet.jku.at/applications/Visualizer/
-
-### Json - (I don't know exact relation )
-https://www.json.org/
-
-### TypeScript full spec
-https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#A
-
 ## used language : C language
 
 ## The feature of common python language
@@ -156,7 +143,7 @@ type_specifier
 	| Int
 	| float
 	| long
-	| complex
+	| complexfLyMd-mAkEr
 
     # Iterator Types
 	| _iter_

@@ -1,112 +1,95 @@
+# TODO: Which extension suits for?
+
 # Grammar for Python
 
-# Good to know 
-
 # NOTE WELL: You should also follow all the steps listed at
-
 # https://devguide.python.org/grammar/
 
 # Start symbols for the grammar:
-#       **SINGLE_INPUT** is a single interactive statement;
-#       **FILE_INPUT** is a module or sequence of commands read from an input file;
-#       **EVAL_INPUT** is the input for the eval() functions.
-# NB: compound_stmt in single_input is followed by extra NEWLINE!
+#       single_input is a single interactive statement;
+single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
 
-
-# Run python interactively : line by line
-single_input: NEWLINE | simple_stmt 
-                      | compound_stmt NEWLINE
-
-
-# example python xxxx.py 
-# And what is the eval input?
+#       file_input is a module or sequence of commands read from an input file;
 file_input: (NEWLINE | stmt)* ENDMARKER
 
+#       eval_input is the input for the eval() functions.
+# NB: compound_stmt in single_input is followed by extra NEWLINE!
 eval_input: testlist NEWLINE* ENDMARKER
 
-
-# Decorator
 decorator: '@' dotted_name [ '(' [arglist] ')' ] NEWLINE
 decorators: decorator+
 decorated: decorators (classdef | funcdef | async_funcdef)
 
 async_funcdef: 'async' funcdef
+
 funcdef: 'def' NAME parameters ['->' test] ':' suite
 
 parameters: '(' [typedargslist] ')'
 
 typedargslist: (tfpdef ['=' test] (',' tfpdef ['=' test])* [',' [
         '*' [tfpdef] (',' tfpdef ['=' test])* [',' ['**' tfpdef [',']]]
-      | '**' tfpdef [',']]]
-      | '*' [tfpdef] (',' tfpdef ['=' test])* [',' ['**' tfpdef [',']]]
-      | '**' tfpdef [','])
+        | '**' tfpdef [',']]]
+        | '*' [tfpdef] (',' tfpdef ['=' test])* [',' ['**' tfpdef [',']]]
+        | '**' tfpdef [','])
 
 tfpdef: NAME [':' test]
 
 varargslist: (vfpdef ['=' test] (',' vfpdef ['=' test])* [',' [
         '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
       | '**' vfpdef [',']]]
-      | '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
-      | '**' vfpdef [',']
+  | '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
+  | '**' vfpdef [',']
 )
+
 vfpdef: NAME
 
-stmt: simple_stmt | 
-      compound_stmt
-
-### line by line?
+stmt: simple_stmt | compound_stmt
 simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
+small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
+             import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
+expr_stmt: testlist_star_expr (annassign | augassign (yield_expr|testlist) |
+                     ('=' (yield_expr|testlist_star_expr))*)
 
-small_stmt: (expr_stmt |
-              del_stmt |
-             pass_stmt |
-             flow_stmt |
-           import_stmt |
-           global_stmt |
-         nonlocal_stmt |
-            assert_stmt)
+# An augmented assignment expression like x += 1 can be rewritten as x = x + 1 to achieve a similar, but not exactly equal effect. In the augmented version, x is only evaluated once. Also, when possible, the actual operation is performed in-place, meaning that rather than creating a new object and assigning that to the target, the old object is modified instead.
 
-### line by line?
-expr_stmt: testlist_star_expr (annassign |
-          augassign (yield_expr|testlist)|
-                              ('=' (yield_expr|testlist_star_expr))*)
 
 annassign: ':' test ['=' test]
 testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
-
-### TODO: @= ??? 
-### TODO: @= ??? 
-### Bit manipulation of python https://wiki.python.org/moin/BitManipulation
-augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' | '<<=' | '>>=' | '**=' | '//=') 
+augassign: ('+='  | 
+            '-='  |
+            '*='  |
+            '@='  |
+             '/=' | 
+             '%=' | 
+             '&=' |
+             '|=' |
+             '^=' |
+            '<<=' |
+            '>>=' |
+            '**=' |
+            '//=')
 
 # For normal and annotated assignments, additional restrictions enforced by the interpreter
+
 del_stmt: 'del' exprlist
 
 pass_stmt: 'pass'
 
-flow_stmt: break_stmt    |
-           continue_stmt |
-           return_stmt   |
-           raise_stmt    |
-           yield_stmt
+flow_stmt: break_stmt |
+        continue_stmt |
+          return_stmt |
+          raise_stmt  |
+          yield_stmt
 
 break_stmt: 'break'
-
 continue_stmt: 'continue'
-
 return_stmt: 'return' [testlist]
-
 yield_stmt: yield_expr
-
 raise_stmt: 'raise' [test ['from' test]]
-
 import_stmt: import_name | import_from
-
 import_name: 'import' dotted_as_names
 
-
 # note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
-# what does it mean?
 import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
               'import' ('*' | '(' import_as_names ')' | import_as_names))
 import_as_name: NAME ['as' NAME]
@@ -121,101 +104,60 @@ assert_stmt: 'assert' test [',' test]
 compound_stmt: if_stmt |
             while_stmt |
               for_stmt |
-              try_stmt | 
+              try_stmt |
              with_stmt |
                funcdef |
               classdef |
-             decorated |
-              async_stmt
+             decorated | async_stmt
 
 async_stmt: 'async' (funcdef | with_stmt | for_stmt)
-
 if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
-
 while_stmt: 'while' test ':' suite ['else' ':' suite]
-
 for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
-
 try_stmt: ('try' ':' suite
            ((except_clause ':' suite)+
             ['else' ':' suite]
             ['finally' ':' suite] |
            'finally' ':' suite))
-
 with_stmt: 'with' with_item (',' with_item)*  ':' suite
-
 with_item: test ['as' expr]
 
 # NB compile.c makes sure that the default except clause is last
-
 except_clause: 'except' [test ['as' NAME]]
-
 suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 
 test: or_test ['if' or_test 'else' test] | lambdef
-
 test_nocond: or_test | lambdef_nocond
-
 lambdef: 'lambda' [varargslist] ':' test
-
 lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
-
 or_test: and_test ('or' and_test)*
-
 and_test: not_test ('and' not_test)*
-
 not_test: 'not' not_test | comparison
-
 comparison: expr (comp_op expr)*
-
 # <> isn't actually a valid comparison operator in Python. It's here for the
 # sake of a __future__ import described in PEP 401 (which really works :-)
-
 comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
-
 star_expr: '*' expr
-
 expr: xor_expr ('|' xor_expr)*
-
 xor_expr: and_expr ('^' and_expr)*
-
 and_expr: shift_expr ('&' shift_expr)*
-
 shift_expr: arith_expr (('<<'|'>>') arith_expr)*
-
-# Operator precedence is implemented!
 arith_expr: term (('+'|'-') term)*
-
 term: factor (('*'|'@'|'/'|'%'|'//') factor)*
-
 factor: ('+'|'-'|'~') factor | power
-
 power: atom_expr ['**' factor]
-
 atom_expr: ['await'] atom trailer*
-
 atom: ('(' [yield_expr|testlist_comp] ')' |
-                  '[' [testlist_comp] ']' |
-                 '{' [dictorsetmaker] '}' |
-                                     NAME | 
-        NUMBER | STRING+ | '...' | 'None' | 'True' | 'False')
-
+       '[' [testlist_comp] ']' |
+       '{' [dictorsetmaker] '}' |
+       NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False')
 testlist_comp: (test|star_expr) ( comp_for | (',' (test|star_expr))* [','] )
-
 trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
-
 subscriptlist: subscript (',' subscript)* [',']
-
 subscript: test | [test] ':' [test] [sliceop]
-
 sliceop: ':' [test]
-
-### evaluate expression
 exprlist: (expr|star_expr) (',' (expr|star_expr))* [',']
-
-### TODO: you have to know what is the []
 testlist: test (',' test)* [',']
-
 dictorsetmaker: ( ((test ':' test | '**' expr)
                    (comp_for | (',' (test ':' test | '**' expr))* [','])) |
                   ((test | star_expr)
@@ -224,8 +166,6 @@ dictorsetmaker: ( ((test ':' test | '**' expr)
 classdef: 'class' NAME ['(' [arglist] ')'] ':' suite
 
 arglist: argument (',' argument)*  [',']
-
-### TODO: Where is the last "test"
 
 # The reason that keywords are test nodes instead of NAME is that using NAME
 # results in an ambiguity. ast.c makes sure it's a NAME.
@@ -237,23 +177,17 @@ arglist: argument (',' argument)*  [',']
 # multiple (test comp_for) arguments are blocked; keyword unpackings
 # that precede iterable unpackings are blocked; etc.
 argument: ( test [comp_for] |
-              test '=' test |
-                  '**' test |
-                   '*' test )
+            test '=' test |
+            '**' test |
+            '*' test )
 
-comp_iter: comp_for |
-           comp_if
-
+comp_iter: comp_for | comp_if
 sync_comp_for: 'for' exprlist 'in' or_test [comp_iter]
-
 comp_for: ['async'] sync_comp_for
-
 comp_if: 'if' test_nocond [comp_iter]
 
-# (I don't know what does this mean...)
 # not used in grammar, but may appear in "node" passed from Parser to Compiler
 encoding_decl: NAME
 
 yield_expr: 'yield' [yield_arg]
-
 yield_arg: 'from' test | testlist

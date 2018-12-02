@@ -1,0 +1,211 @@
+%!TEX program = pdflatex
+% -*- coding: utf-8 -*-
+
+\documentclass[a4paper]{article}
+
+% ko.TeX
+\PassOptionsToPackage{no-math}{fontspec}
+\usepackage{kotex}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{dhucs-nanumfont}
+\else\ifXeTeX
+  \usepackage{xltxtra}
+  \defaultfontfeatures{Mapping=tex-text}
+  \setmainhangulfont[BoldFont=나눔명조 Bold]{나눔명조}
+  \setsanshangulfont[BoldFont=나눔바른고딕 Bold]{나눔바른고딕}
+\else\ifLuaTeX
+  \defaultfontfeatures{Mapping=tex-text}
+  % \setmainhangulfont[BoldFont=NanumMyeongju Bold]{NanumMyeongju}
+  % \setsanshangulfont[BoldFont=NanumBarunGothic Bold]{NanumBarunGothic}
+\fi\fi\fi
+
+
+% packages ====================================================================
+% basic packages
+\usepackage{amsmath,amsthm,amssymb,latexsym,mathtools}
+\usepackage{graphicx} % include figures
+  \usepackage{subfig}
+  \graphicspath{{figures/}{anotherdir/}}
+  \makeatletter
+  \def\input@path{{figures/}} % for `\input`
+  \makeatother
+\usepackage[usenames,dvipsnames]{xcolor} % color text, color names
+
+% better formatting
+\usepackage{natbib}
+\usepackage{relsize} % for relative font size, \smaller and \larger
+\usepackage{mleftright}
+  \mleftright
+\usepackage{siunitx} % for SI units. \si, \SI, \SIrange, \num
+\usepackage{booktabs} % publication quality tables
+\usepackage{dcolumn} % alignment of numbers in table
+
+% tikz
+\usepackage{tikz}
+  \usepackage{pgfplots}
+  \usetikzlibrary{arrows.meta,bending,external,positioning,shapes}
+  \pgfplotsset{compat=1.10}
+  % \tikzexternalize
+  % \tikzsetexternalprefix{figures/}
+
+% sundries
+\usepackage{textgreek}
+
+% `hyperref` -> `hypcap` -> `cleveref` packages must be called at the end.
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+  \hypersetup{%
+    bookmarksnumbered=true,% add section numbers to bookmarks
+    colorlinks=true,%
+    citecolor=red,%
+    urlcolor=blue,%
+    %
+    unicode=true,% for ko.TeX, pdf bookmark
+    % PDF document options
+    pdftitle={PDF Title},%
+    pdfauthor={PDF Author},%
+    pdfsubject={PDF Subject},%
+    pdfkeywords={keyword1,keyword2,keyword3},%
+  }
+  % for pdf bookmark when using ko.TeX
+  \pdfstringdefDisableCommands{\def\XeTeX{XeTeX}\def\XeLaTeX{XeLaTeX}}%
+\usepackage{cleveref} % `cleveref` must be called after `hyperref`
+  \newcommand{\crefrangeconjunction}{--}
+  \crefname{equation}{equation}{equations}
+  \Crefname{equation}{Equation}{Equations}
+
+
+% macros ======================================================================
+% utility packages for macros
+\usepackage{xifthen}
+\usepackage{suffix} % for \WithSuffix, define command with * option
+
+% upright fonts
+\newcommand*{\ud}{\mathrm{d}} % upright d: differential operator
+\newcommand*{\dd}{\;\mathrm{d}} % upright d: integration operator
+\newcommand*{\ue}{\mathrm{e}} % upright e: base of the natural logarithms
+\newcommand*{\ui}{\mathrm{i}} % upright i: imaginary unit
+
+% paired operators
+\newcommand*{\zerodel}{.\kern-\nulldelimiterspace}
+\DeclarePairedDelimiter{\verts}{\lvert}{\rvert}
+  \newcommand*{\vertsr}[1]{{#1\rvert}}
+  \WithSuffix{\newcommand*}\vertsr*[1]{{\left\zerodel#1\right\rvert}}
+\DeclarePairedDelimiter{\parens}{(}{)}
+\DeclarePairedDelimiter{\braces}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\brackets}{[}{]}
+\DeclarePairedDelimiter{\angles}{\langle}{\rangle}
+\DeclarePairedDelimiterX{\conditional}[2]{(}{)}%
+  {#1\mathrel{}\mathclose{}\delimsize\vert\mathopen{}\mathrel{}#2}
+
+\newcommand*{\abs}{\verts}
+\newcommand*{\vecnorm}{\verts}
+
+% operators
+\newcommand*{\diff}[3][]{\ifthenelse{\isempty{#1}}%
+  {\frac{\ud #2}{\ud #3}}% if #1 (exponent) is empty
+  {\frac{\ud^{#1} #2}{\ud #3^{#1}}}%
+}
+\newcommand*{\idiff}[3][]{\ifthenelse{\isempty{#1}}%
+  {\ud #2 / \ud #3}%
+  {\ud^{#1} #2 / \ud #3^{#1}}%
+}
+\newcommand*{\pdiff}[3][]{\ifthenelse{\isempty{#1}}%
+  {\frac{\partial #2}{\partial #3}}%
+  {\frac{\partial^{#1} #2}{\partial #3^{#1}}}%
+}
+\newcommand*{\ipdiff}[3][]{\ifthenelse{\isempty{#1}}%
+  {\partial #2 / \partial #3}%
+  {\partial^{#1} #2 / \partial #3^{#1}}%
+}
+
+% bold type vector and very widely used vector variables
+\newcommand*{\vect}[1]{\mathbf{#1}}
+\newcommand*{\vzero}{\vect{0}}
+\newcommand*{\vi}{\vect{i}}
+\newcommand*{\vj}{\vect{j}}
+\newcommand*{\vk}{\vect{k}}
+\newcommand*{\vn}{\vect{n}}
+
+% function names
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\proj}{proj}
+
+% symbols
+\newcommand*{\bbN}{\mathbb{N}}
+\newcommand*{\bbZ}{\mathbb{Z}}
+\newcommand*{\bbR}{\mathbb{R}}
+\newcommand*{\bbC}{\mathbb{C}}
+
+
+% for debug ===================================================================
+\usepackage[margin=1in]{geometry}
+\usepackage{refcheck} % must be called after [ams*] and [hyperref]
+\usepackage{float} % "H" option for figures
+\newcommand{\todo}[2][TODO]{\textcolor{Magenta}{\textsf{(#1: #2)}}}
+\newcommand*{\citationneeded}[1][\footnotesize{citation needed}]%
+  {[\textcolor{Red}{#1}]}
+% =============================================================================
+
+
+\begin{document}
+
+\title{Define own language!}
+\author{ThinkTank}
+\date{\today}
+\maketitle
+
+
+\section{1. introduction}
+
+compiler\break 
+
+\begin{itemize}
+
+  \item \verb+\dotemph+를 사용하면 한글 단어 검색이 안됨.
+  (한글 코드 문제가 아니라, 글자별로 잘림)
+  \item pdf\TeX으로 컴파일할 때 \verb+\dotemph+를 쓰면 warning이 뜸.
+\end{itemize}
+
+
+\section{Lorem ipsum 한글 제목}
+
+``Lorem'' ipsum-dolor--sit---amet, 한글 consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+가나다라\textsf{마바사}아자차카타파하.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+\section{Test}
+\todo{todo}, \todo[FIXME]{fixme}, \todo[DELETEME]{deleteme}
+
+Test for \verb+\zerodel+:
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{ll}
+  \toprule
+  \verb+a =               b+
+  & $a = b \rvert$
+  \\
+  \verb+a = \left.        b \right\rvert+
+  & $a = \left. b \right\rvert$
+  \\
+  \verb+a = \left\zerodel b \right\rvert+
+  & $a = \left\zerodel b \right\rvert$
+  \\ \bottomrule
+  \end{tabular}
+  \caption{}
+\end{table}
+
+\begin{align*}
+  % \text{\verb+a aa+} && a &= \left. b \right) \\
+   \\
+  a &= b
+\end{align*}
+
+
+
+\end{document}
