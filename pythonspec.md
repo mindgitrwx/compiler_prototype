@@ -66,7 +66,6 @@ small_stmt: (expr_stmt |
          nonlocal_stmt |
             assert_stmt)
 
-### line by line?
 expr_stmt: testlist_star_expr (annassign |
           augassign (yield_expr|testlist)|
                               ('=' (yield_expr|testlist_star_expr))*)
@@ -74,12 +73,8 @@ expr_stmt: testlist_star_expr (annassign |
 annassign: ':' test ['=' test]
 testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
 
-### TODO: @= ??? 
-### TODO: @= ??? 
-### Bit manipulation of python https://wiki.python.org/moin/BitManipulation
 augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' | '<<=' | '>>=' | '**=' | '//=') 
 
-# For normal and annotated assignments, additional restrictions enforced by the interpreter
 del_stmt: 'del' exprlist
 
 pass_stmt: 'pass'
@@ -105,8 +100,6 @@ import_stmt: import_name | import_from
 import_name: 'import' dotted_as_names
 
 
-# note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
-# what does it mean?
 import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
               'import' ('*' | '(' import_as_names ')' | import_as_names))
 import_as_name: NAME ['as' NAME]
@@ -216,10 +209,8 @@ exprlist: (expr|star_expr) (',' (expr|star_expr))* [',']
 ### TODO: you have to know what is the []
 testlist: test (',' test)* [',']
 
-dictorsetmaker: ( ((test ':' test | '**' expr)
-                   (comp_for | (',' (test ':' test | '**' expr))* [','])) |
-                  ((test | star_expr)
-                   (comp_for | (',' (test | star_expr))* [','])) )
+dictorsetmaker: ( ((test ':' test | '**' expr) (comp_for | (',' (test ':' test | '**' expr))* [','])) |
+                  ((test | star_expr) (comp_for | (',' (test | star_expr))* [','])) )
 
 classdef: 'class' NAME ['(' [arglist] ')'] ':' suite
 
@@ -242,7 +233,7 @@ argument: ( test [comp_for] |
                    '*' test )
 
 comp_iter: comp_for |
-           comp_if
+comp_if
 
 sync_comp_for: 'for' exprlist 'in' or_test [comp_iter]
 

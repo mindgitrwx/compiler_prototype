@@ -1,6 +1,6 @@
 # prototype of compiler project
 
-## compiler name: (not fixed)
+## compiler name: TypeSun
 
 ## used language : C language
 
@@ -13,6 +13,9 @@
 <https://devguide.python.org/grammar/>
 
 ## Reference sites
+
+### The Python programming language
+https://github.com/python/cpython
 
 ### What is the Syntax diagram?
 https://www.wikiwand.com/en/Syntax_diagram 
@@ -28,6 +31,16 @@ https://www.json.org/
 
 ### TypeScript full spec
 https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#A
+
+### Python Parser
+https://tomassetti.me/parsing-in-python/
+
+### Awesome Compiler Learn Site 
+#### The most recent Stanford lectures
+http://web.stanford.edu/class/cs143/
+
+#### The lectures with the most detailed ppt slides. 
+https://web.stanford.edu/class/archive/cs/cs143/cs143.1128/
 
 ## used language : C language
 
@@ -60,7 +73,6 @@ and we used https://devguide.python.org/grammar/
 We have converged two grammar specification for typeSun
 
 
-# markdown code insert 이게 맞았나..
 ```md```
 
 decorator: '@' dotted_name [ '(' [arglist] ')' ] NEWLINE
@@ -178,3 +190,4 @@ flow_stmt: break_stmt |
            raise_stmt |
            yield_stmt
 
+(name)

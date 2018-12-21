@@ -17,15 +17,17 @@
 
 The base language is **Python**. Python is a readable and accessible language. The development of artificial intelligence libraries such as TensorFlow and keras are constantly expanding Python's share. However, since it is a weak type language, there is a drawback that the python program does not correctly catch hazard errors on run time. In fact, while we were developing a robot simulator in Python, we spent a lot of time catching errors at runtime. that would not have happened if we had strongly typed language. On the other hand, the strong type languages correctly detects type errors much before code execution, forces developers to clearly specify types. So, to implement Python as a strong type language, We suggest **'TypeSun'** (python-type combination)
 
-### 1.1.1 background knowledge There is a language that solve the problem of JavaScript elegantly, called **Typescript**, which was a strongly typed language and greatly improved the problems of the dynamic nature of JavaScript.
+### 1.1.1 background knowledge 
 
 ![typescript image](/home/jonghyeon/2018_2_project/compiler_prototype/javascriptTypescript.png)
+
+Before we explain the project we are going to do, I will first describe the language called JavaScript. JavaScript and Python are both dynamic languages, and they contain many similar features.
+And JavaScript has the same problem with the static language that Python has. There is a language that solve the problem of JavaScript elegantly, called **Typescript**, which was a strongly typed language and greatly improved the problems of the dynamic nature of JavaScript. Typescripts, add type stability to the productivity of JavaScript, is currently being used for implementing STL porting on several open sources.
 
 ## 1.2 Improved feature of TypeSun
 
 ![typesun image](/home/jonghyeon/2018_2_project/compiler_prototype/TypeSunDiagram.png)
-
-(The smaller the number, the higher the priority)
+(The smaller the number, the higher the priority. )
 
 1. A Strong type langauge (It can specify type!)
 2. There are also return types in function definition.
@@ -217,9 +219,9 @@ b = 20
 # 4. Reference sites
 
 http://www.appmonks.net/id/93/Typescript-VS-JavaScript/
-https://stackoverflow.com/questions/48180857/python-grammar-specification-typedargslist#answer-51841465
-https://www.wikiwand.com/en/Syntax_diagram 
 http://www.wdz.eng.br/Python3DsBnf.htm
+https://docs.python.org/3/reference/grammar.html
+https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
 # 5. Other
 

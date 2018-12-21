@@ -7,7 +7,9 @@
 
 # Start symbols for the grammar:
 #       single_input is a single interactive statement;
-single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
+single_input: NEWLINE |
+          simple_stmt |
+          compound_stmt NEWLINE
 
 #       file_input is a module or sequence of commands read from an input file;
 file_input: (NEWLINE | stmt)* ENDMARKER
@@ -37,16 +39,25 @@ tfpdef: NAME [':' test]
 varargslist: (vfpdef ['=' test] (',' vfpdef ['=' test])* [',' [
         '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
       | '**' vfpdef [',']]]
-  | '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
-  | '**' vfpdef [',']
+      | '*' [vfpdef] (',' vfpdef ['=' test])* [',' ['**' vfpdef [',']]]
+      | '**' vfpdef [',']
 )
 
 vfpdef: NAME
 
 stmt: simple_stmt | compound_stmt
+
 simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
-small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
-             import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
+
+small_stmt: ( expr_stmt |
+              del_stmt |
+              pass_stmt |
+              flow_stmt |
+              import_stmt |
+              global_stmt |
+              nonlocal_stmt |
+              assert_stmt)
+
 expr_stmt: testlist_star_expr (annassign | augassign (yield_expr|testlist) |
                      ('=' (yield_expr|testlist_star_expr))*)
 
@@ -75,19 +86,20 @@ del_stmt: 'del' exprlist
 
 pass_stmt: 'pass'
 
+# flow stmt : break continue return raise yield 
 flow_stmt: break_stmt |
         continue_stmt |
           return_stmt |
           raise_stmt  |
           yield_stmt
 
-break_stmt: 'break'
+break_stmt   : 'break'
 continue_stmt: 'continue'
-return_stmt: 'return' [testlist]
-yield_stmt: yield_expr
-raise_stmt: 'raise' [test ['from' test]]
-import_stmt: import_name | import_from
-import_name: 'import' dotted_as_names
+return_stmt  : 'return' [testlist]
+yield_stmt   : yield_expr
+raise_stmt   : 'raise' [test ['from' test]]
+import_stmt  : import_name | import_from
+import_name  : 'import' dotted_as_names
 
 # note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
 import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
@@ -123,19 +135,25 @@ with_stmt: 'with' with_item (',' with_item)*  ':' suite
 with_item: test ['as' expr]
 
 # NB compile.c makes sure that the default except clause is last
+# stmt : statement
 except_clause: 'except' [test ['as' NAME]]
-suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
+suite: simple_stmt |
+        NEWLINE INDENT stmt+ DEDENT
 
 test: or_test ['if' or_test 'else' test] | lambdef
 test_nocond: or_test | lambdef_nocond
+
 lambdef: 'lambda' [varargslist] ':' test
 lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
+
 or_test: and_test ('or' and_test)*
 and_test: not_test ('and' not_test)*
 not_test: 'not' not_test | comparison
 comparison: expr (comp_op expr)*
+
 # <> isn't actually a valid comparison operator in Python. It's here for the
 # sake of a __future__ import described in PEP 401 (which really works :-)
+
 comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
 star_expr: '*' expr
 expr: xor_expr ('|' xor_expr)*
@@ -176,10 +194,10 @@ arglist: argument (',' argument)*  [',']
 # Illegal combinations and orderings are blocked in ast.c:
 # multiple (test comp_for) arguments are blocked; keyword unpackings
 # that precede iterable unpackings are blocked; etc.
-argument: ( test [comp_for] |
-            test '=' test |
-            '**' test |
-            '*' test )
+argument: ( test [comp_for] | 
+              test '=' test |
+                  '**' test |
+                  '*' test ) 
 
 comp_iter: comp_for | comp_if
 sync_comp_for: 'for' exprlist 'in' or_test [comp_iter]
